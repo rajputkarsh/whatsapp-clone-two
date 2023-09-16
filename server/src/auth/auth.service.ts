@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { CreateUserDto } from 'src/dto/user.dto';
 import { User } from '../schemas/user.schema';
 
 @Injectable()
@@ -8,9 +9,9 @@ export class AuthService {
     constructor(@InjectModel(User.name) private userModel: Model<User>) { }
 
 
-    async create(createCatDto: CreateCatDto): Promise<User> {
-        const createdCat = new this.userModel(createCatDto);
-        return createdCat.save();
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const createdUser = new this.userModel(createUserDto);
+        return createdUser.save();
     }
 
     async findAll(): Promise<User[]> {
