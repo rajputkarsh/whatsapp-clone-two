@@ -16,7 +16,7 @@ function login() {
       }
 
 
-    } catch(err) {
+    } catch(error) {
       console.error('Error - ', error);
     }
   };
