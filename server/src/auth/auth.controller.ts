@@ -9,7 +9,7 @@ import { SUCCESS_MESSAGE } from 'src/constants/success.constant';
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
-    @Post('check-user')
+    @Post('/check-user')
     async checkUser(@Req() request: Request, @Res({passthrough: true}) response: Response) {
         try {
             const { email } = request.body;

@@ -1,10 +1,18 @@
+
 import React from "react";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { firebaseAuth } from "../utils/FirebaseConfig";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
+import axios from "axios";
+import { API_URLS } from '../constants/urls';
+import { useRouter } from "next/router";
+import { useStateProvider } from '../context/StateContext';
+import StateActions from "../context/StateActions";
 
 function login() {
+  const router = useRouter();
+  const [{}, dispatch] = useStateProvider();
 
   const handleLogin = async () => {
     try {
@@ -12,9 +20,33 @@ function login() {
       const { user: { displayName: name, email, photoURL: profileImage } } = await signInWithPopup(firebaseAuth, provider);
 
       if (email) {
+        const { data: apiResponse } = await axios.post(API_URLS.AUTH_CHECK_USER(), { email });
+
+        if (!apiResponse?.userExists) {
+          // need to register the user
+          dispatch({
+            type: StateActions.SET_NEW_USER,
+            data: {
+              newUser: true,
+            },
+          });
+          dispatch({
+            type: StateActions.SET_USER_INFO,
+            data: {
+              userInfo: {
+                name,
+                email,
+                profileImage,
+                status: ""
+              },
+            },
+          })
+          router.push(`/register`);
+        } else {
+          // login successful
+        }
 
       }
-
 
     } catch(error) {
       console.error('Error - ', error);

@@ -14,6 +14,8 @@ import { MessageModule } from './message/message.module';
       envFilePath: `.env`
     }),
     MongooseModule.forRoot(`${process.env.MONGO_DB_URL}`),
+    AuthModule,
+    MessageModule
   ],
   controllers: [AppController],
   providers: [AppService],
