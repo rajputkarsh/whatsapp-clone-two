@@ -13,10 +13,6 @@ import { MessageModule } from './message/message.module';
     ConfigModule.forRoot({
       envFilePath: `.env`
     }),
-    GraphQLModule.forRoot<ApolloDriverConfig>({
-      driver: ApolloDriver,
-      include: [AuthModule, MessageModule],
-    }),
     MongooseModule.forRoot(`${process.env.MONGO_DB_URL}`),
   ],
   controllers: [AppController],
